@@ -28,9 +28,7 @@ quaternion[3] = _data.alt;
     kp: kP,
     ki: kI,
     kd: kD
-  }
-
-  console.log(pidData)
+  };
 
   io.emit('pidData', pidData);
 
