@@ -9,6 +9,7 @@ var integratorAlt = 0;
 var integrator_max = 100;
 var integrator_min = -100;
 var quaternion = [];
+var throttle = 10;
 
 var exports = module.exports = function(_socket, _kP, _kI, _kD, _bool){
   var socket = _socket;
@@ -22,7 +23,6 @@ quaternion[0] = _data.rotx; //roll
 quaternion[1] = _data.roty; //pitch
 quaternion[2] = _data.rotz; //yaw
 quaternion[3] = _data.alt;
-quaternion[4] = _data.vect;
   socket.emit('pidData', {
     kp: kP,
     ki: kI,
@@ -36,7 +36,7 @@ var calculatePID = function(_quaternion, setPoints){
   var pidRoll;
   var pidPitch;
   var pidYaw;
-  for(var i = 0; i < _quaternion.length-1; i++){
+  for(var i = 0; i < _quaternion.length; i++){
     var pVal;
     var iVal;
     var dVal;
@@ -148,10 +148,11 @@ var calculatePID = function(_quaternion, setPoints){
     //////////////////////////////////////////////
 
   }
-        socket.emit("writemotor", {side:"front", thrust:quaternion[4]+pidPitch - pidYaw});
-        socket.emit("writemotor", {side:"back", thrust:quaternion[4]-pidPitch-pidYaw});
-        socket.emit("writemotor", {side:"left", thrust:quaternion[4]+pidRoll+pidYaw});
-        socket.emit("writemotor", {side:"right", thrust:quaternion[4]-pidRoll+pidYaw});
+        socket.emit("writemotor", {side:"front", thrust:throttle+pidPitch - pidYaw});
+        socket.emit("writemotor", {side:"back", thrust:throttle-pidPitch-pidYaw});
+        socket.emit("writemotor", {side:"left", thrust:throttle+pidRoll+pidYaw});
+        socket.emit("writemotor", {side:"right", thrust:throttle-pidRoll+pidYaw});
+
 };
 
 this.calculatePID = calculatePID;
