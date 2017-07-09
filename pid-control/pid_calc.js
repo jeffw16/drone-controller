@@ -80,9 +80,9 @@ exports.getSetPoint = function(){
   return setPoint;
 };
 
-exports.processConnection = function(socket){
-  console.log('Connected!');
-  socket.on('dronedata', (data) => {
-  update(data);
-  });
-};
+// exports.processConnection = function(socket){
+//   console.log('Connected!');
+//   socket.on('dronedata', (data) => {
+//   update(data);
+//   });
+// };

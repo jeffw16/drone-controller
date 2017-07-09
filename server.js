@@ -1,6 +1,7 @@
 const app = require('express')();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
+var pidControl = require('./pid-control/pid_calc.js');
 
 const port= process.env.PORT || 3000;
 
@@ -18,8 +19,7 @@ io.on('connection', (socket) => {
 
   socket.on('dronedata', (data) => {
     console.log('I received data from the drone.')
-    // process that data in the PID
-    // the data is in the form of a JSON object
+    pidControl.update(data);
   })
 
   socket.on('disconnect', () => {
