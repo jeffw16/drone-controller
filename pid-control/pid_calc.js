@@ -145,8 +145,8 @@ var calculatePID = function(_quaternion, setPoints){
     }if(i == 3 & bool === true){
       var frontl = pid;
       var backl = pid;
-      socket.emit("writemotor", {side:"front", thrust:frontl});
-      socket.emit("writermotor", {side:"back", thrust:backl});
+      //socket.emit("writemotor", {side:"front", thrust:frontl});
+    //  socket.emit("writermotor", {side:"back", thrust:backl});
     }
     //////////////////////////////////////////////
 
