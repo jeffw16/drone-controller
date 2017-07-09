@@ -77,7 +77,6 @@ var calculatePID = function(_quaternion, setPoints){
       socket.emit("front", {side:"front", thrust:frontl});
       socket.emit("back", {side:"back", thrust:backl});
     }
-
   }
 };
 
