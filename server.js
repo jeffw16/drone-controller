@@ -1,9 +1,8 @@
 const app = require('express')();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
-var pidControl = require('./pid-control/pid_calc.js');
-
-pidControl.setConstructor(io);
+var PIDControl = require('./pid-control/pid_calc.js');
+var pidControl = new PIDControl(io);
 
 const port= process.env.PORT || 3000;
 
@@ -28,10 +27,6 @@ io.on('connection', (socket) => {
     console.log('This user has disconnected.');
   });
 });
-
-function writeMotor(info) {
-  io.emit('writemotor', {side: "front", thrust: 50});
-}
 
 http.listen(port, () => {
   console.log("Drone Controller Server - Welcome");

@@ -1,5 +1,3 @@
-var exports = module.exports = {};
-
 var kP = 1;
 var kI = 1;
 var kD = 1;
@@ -8,14 +6,11 @@ var integrator = 0;
 var integrator_max = 400;
 var integrator_min = -400;
 var quaternion = {};
-var io;
 
-exports.setConstructor = function(_io){
-  io = _io;
-};
+var exports = module.exports = function(socket){
+  var io = socket;
 
-
-exports.update = function(_data){
+this.update = function(_data){
 quaternion[0] = _data.rotx; //roll
 quaternion[1] = _data.roty; //pitch
 quaternion[2] = _data.rotz; //yaw
@@ -58,35 +53,36 @@ var calculatePID = function(_quaternion, setPoints){
   }
 };
 
-exports.calculatePID = calculatePID;
+this.calculatePID = calculatePID;
 
-exports.moveForward = function(){ //needs to keep GETTING CALLED CONTINUOUSLY OR IT WONT WORK for all 4
+this.moveForward = function(){ //needs to keep GETTING CALLED CONTINUOUSLY OR IT WONT WORK for all 4
   calculatePID([], [0, 20, 0]);
 };
-exports.moveBackward = function(){
+this.moveBackward = function(){
   calculatePID([], [0, -20, 0]);
 };
-exports.moveLeft = function(){
+this.moveLeft = function(){
   calculatePID([], [20, 0, 0]);
 };
-exports.moveRight = function(){
+this.moveRight = function(){
   calculatePID([], [-20, 0, 0]);
 };
 
 
-exports.setKP = function(kP){
+this.setKP = function(kP){
   this.kP = kP;
 };
-exports.setKI = function(kI){
+this.setKI = function(kI){
   this.kI = kI;
 };
-exports.setKD = function(kD){
+this.setKD = function(kD){
   this.kD = kD;
 };
-exports.getSetPoint = function(){
+this.getSetPoint = function(){
   return setPoint;
 };
 
+};
 // exports.processConnection = function(socket){
 //   console.log('Connected!');
 //   socket.on('dronedata', (data) => {
