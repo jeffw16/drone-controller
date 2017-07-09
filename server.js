@@ -2,7 +2,6 @@ const app = require('express')();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
 var PIDControl = require('./pid-control/pid_calc.js');
-var pidControl = new PIDControl(io);
 
 const port= process.env.PORT || 3000;
 
@@ -16,8 +15,8 @@ app.get('/test', (req, res) => {
 
 io.on('connection', (socket) => {
   console.log('A user has connected.');
+  var pidControl = new PIDControl(socket);
   socket.emit('message', 'Welcome! You are connected.');
-
   socket.on('dronedata', (data) => {
     console.log('I received data from the drone.');
     pidControl.update(data);
