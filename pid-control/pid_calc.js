@@ -29,7 +29,7 @@ quaternion[3] = _data.alt;
 var calculatePID = function(_quaternion, setPoints){
   for(var i = 0; i < _quaternion.length; i++){
     var error = setPoints[i] - _quaternion[i];
-
+console.log("eyieiy" + i);
     var pVal = error*kP;
 
     integrator += error;
