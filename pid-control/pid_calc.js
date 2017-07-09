@@ -24,9 +24,9 @@ quaternion[2] = _data.rotz; //yaw
 quaternion[3] = _data.alt;
 
   socket.emit('pidData', {
-    "kp": kP,
-    "ki": kI,
-    "kd": kD
+    kp: kP,
+    ki: kI,
+    kd: kD
   });
 
   calculatePID(quaternion, [0, 0, 0, 10]);
@@ -140,8 +140,8 @@ var calculatePID = function(_quaternion, setPoints){
     }if(i == 3 & bool === true){
       var frontl = pid;
       var backl = pid;
-      socket.emit("front", {side:"front", thrust:frontl*5});
-      socket.emit("back", {side:"back", thrust:backl*5});
+      socket.emit("front", {side:"front", thrust:frontl});
+      socket.emit("back", {side:"back", thrust:backl});
     }
   }
 };
