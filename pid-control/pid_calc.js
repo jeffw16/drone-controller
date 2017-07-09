@@ -179,6 +179,7 @@ this.moveRight = function(){
 
 
 this.setKP = function(kP){
+  console.log("kp set");
   this.kP = kP;
 };
 this.setKI = function(kI){
