@@ -32,9 +32,9 @@ quaternion[3] = _data.alt;
 };
 
 var calculatePID = function(_quaternion, setPoints){
-  var pidRoll;
-  var pidPitch;
-  var pidYaw;
+  // var pidRoll;
+  // var pidPitch;
+  // var pidYaw;
   for(var i = 0; i < _quaternion.length; i++){
     var pVal;
     var iVal;
