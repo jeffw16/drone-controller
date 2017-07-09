@@ -8,6 +8,12 @@ var integrator = 0;
 var integrator_max = 400;
 var integrator_min = -400;
 var quaternion = {};
+var io;
+
+exports.setConstructor = function(_io){
+  io = _io;
+};
+
 
 exports.update = function(_data){
 quaternion[0] = _data.rotx; //roll
@@ -38,14 +44,14 @@ var calculatePID = function(_quaternion, setPoints){
 
     if(i === 0){
       var left = /*throttle + */ pid;
-      io.emit('left', pid);
+      io.emit('writemotor', {side: "left", thrust: left});
       var right = /*throttle - */ pid;
-      io.emit('right', pid);
+      io.emit('writemotor', {side: "right", thrust: right});
     }else if (i == 1) {
       var front = /*throttle + */ pid;
-      io.emit('front', front);
+      io.emit('writemotor', {side:"front", thrust: front});
       var back = /*throttle + */ pid;
-      io.emit('back', back);
+      io.emit('writemotor', {side:"back", thrust: back});
     }else if (i == 2) {
       //TODO: add yaw somehow?
     }

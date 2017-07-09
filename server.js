@@ -3,6 +3,8 @@ const http = require('http').Server(app);
 const io = require('socket.io')(http);
 var pidControl = require('./pid-control/pid_calc.js');
 
+pidControl.setConstructor(io);
+
 const port= process.env.PORT || 3000;
 
 app.get('/', (req, res) => {
