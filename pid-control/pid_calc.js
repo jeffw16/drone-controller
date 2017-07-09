@@ -1,3 +1,4 @@
+var exports = module.exports = {};
 
 var kP = 1;
 var kI = 1;
@@ -8,24 +9,16 @@ var integrator_max = 400;
 var integrator_min = -400;
 var quaternion = {};
 
-io.on('connection', (socket) => {
-  console.log('Connected!');
-  socket.on('dronedata', (data) => {
-  update(data);
-  });
-});
-
-
-function update(_data){
+exports.update = function(_data){
 var data = JSON.parse(_data);
 quaternion[0] = data.rotx; //roll
 quaternion[1] = data.roty; //pitch
 quaternion[2] = data.rotz; //yaw
 
 calculatePID(quaternion, [0, 0, 0]);
-}
+};
 
-function calculatePID(_quaternion, setPoints){
+exports.calculatePID = function(_quaternion, setPoints){
   for(var i = 0; i < _quaternion.length-1; i++){
     var error = setPoints[i] - _quaternion[i];
 
@@ -44,7 +37,7 @@ function calculatePID(_quaternion, setPoints){
 
     var pid = pVal + iVal + dVal;
 
-    if(i == 0){
+    if(i === 0){
       var left = /*throttle + */ pid;
       io.emit('left', pid);
       var right = /*throttle - */ pid;
@@ -58,31 +51,38 @@ function calculatePID(_quaternion, setPoints){
       //TODO: add yaw somehow?
     }
   }
-}
+};
 
-function moveForward(){ //needs to keep GETTING CALLED CONTINUOUSLY OR IT WONT WORK for all 4
+exports.moveForward = function(){ //needs to keep GETTING CALLED CONTINUOUSLY OR IT WONT WORK for all 4
   calculatePID([], [0, 20, 0]);
-}
-function moveBackward(){
+};
+exports.moveBackward = function(){
   calculatePID([], [0, -20, 0]);
-}
-function moveLeft(){
+};
+exports.moveLeft = function(){
   calculatePID([], [20, 0, 0]);
-}
-function moveRight(){
+};
+exports.moveRight = function(){
   calculatePID([], [-20, 0, 0]);
-}
+};
 
 
-function setKP(kP){
+exports.setKP = function(kP){
   this.kP = kP;
-}
-function setKI(kI){
+};
+exports.setKI = function(kI){
   this.kI = kI;
-}
-function setKD(kD){
+};
+exports.setKD = function(kD){
   this.kD = kD;
-}
-function getSetPoint(){
+};
+exports.getSetPoint = function(){
   return setPoint;
-}
+};
+
+exports.processConnection = function(socket){
+  console.log('Connected!');
+  socket.on('dronedata', (data) => {
+  update(data);
+  });
+};
