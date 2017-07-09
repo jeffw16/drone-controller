@@ -1,0 +1,32 @@
+{
+  "name": "drone-controller",
+  "version": "0.0.1",
+  "description": "Web-based drone controller",
+  "main": "server.js",
+  "dependencies": {
+    "express": "^4.15.3",
+    "socket.io": "^2.0.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jeffw16/drone-controller.git"
+  },
+  "keywords": [
+    "drone",
+    "controller",
+    "pid",
+    "web",
+    "interface"
+  ],
+  "author": "TAMSxBoyd",
+  "license": "SEE LICENSE IN LICENSE.md",
+  "bugs": {
+    "url": "https://github.com/jeffw16/drone-controller/issues"
+  },
+  "homepage": "https://github.com/jeffw16/drone-controller#readme"
+}

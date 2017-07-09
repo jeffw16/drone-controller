@@ -1,0 +1,11 @@
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  var socket = new io();
+  socket.connect();
+  socket.on('connection', function( data ) {
+    console.log('Client has connected to the server!');
+  });
+  socket.on('message', function( data ) {
+    console.log('Message from server: ', data);
+  });
+</script>
