@@ -23,13 +23,12 @@ quaternion[3] = _data.alt;
     kd: kD
   });
 
-  calculatePID(quaternion, [0, 0, 0, 10]);
+  calculatePID(quaternion, [0, 0, 0, 0]);
 };
 
 var calculatePID = function(_quaternion, setPoints){
   for(var i = 0; i < _quaternion.length; i++){
     var error = setPoints[i] - _quaternion[i];
-console.log("eyieiy" + i);
     var pVal = error*kP;
 
     integrator += error;
