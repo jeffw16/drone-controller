@@ -102,7 +102,7 @@ var calculatePID = function(_quaternion, setPoints){
           }
           iVal = integratorYaw*this.kI;
 
-          dVal = thiskD * (error - derivatorYaw);
+          dVal = this.kD * (error - derivatorYaw);
           derivatorYaw = error;
 
            pidYaw = 0;
