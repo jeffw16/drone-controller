@@ -21,6 +21,7 @@ io.on('connection', (socket) => {
   socket.on('dronedata', (data) => {
     console.log('I received data from the drone.');
     pidControl.update(data);
+    altControl.update(data);
     io.emit('clientReceiveData', data);
   });
 
