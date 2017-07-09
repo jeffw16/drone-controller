@@ -17,6 +17,12 @@ quaternion[1] = _data.roty; //pitch
 quaternion[2] = _data.rotz; //yaw
 quaternion[3] = _data.alt;
 
+  socket.emit('pidData', {
+    kp: kP,
+    ki: kI,
+    kd: kD
+  });
+
   calculatePID(quaternion, [0, 0, 0, 10]);
 };
 
@@ -55,23 +61,23 @@ var calculatePID = function(_quaternion, setPoints){
     //   socket.emit("front", {side:"front", thrust:frontl});
     //   socket.emit("back", {side:"back", thrust:backl});
     // }
-    if(pid > 0){
-      if( i === 0 & bool != true){
+    if(pid > setpoints[i]){
+      if( i === 0 & bool !== true){
         var right = -pid;
         socket.emit('writemotor', {side: "right", thrust: right});
-      }else if (i == 1 & bool != true){
+      }else if (i == 1 & bool !== true){
         var back = -pid;
         socket.emit('writemotor', {side: "back", thrust: back});
       }
-    }else if(pid < 0){
-      if( i === 0 & bool != true ){
+    }else if(setpoints[i] < 0){
+      if( i === 0 & bool !== true ){
         var left = pid;
         socket.emit('writemotor', {side: "left", thrust: left});
-      }else if(i == 1 & bool != true){
+      }else if(i == 1 & bool !== true){
         var front = pid;
         socket.emit('writemotor', {side: "front", thrust: front});
       }
-    }else if(i == 3 & bool == true){
+    }else if(i == 3 & bool === true){
       var frontl = pid;
       var backl = pid;
       socket.emit("front", {side:"front", thrust:frontl});
@@ -103,6 +109,15 @@ this.setKI = function(kI){
   this.kI = kI;
 };
 this.setKD = function(kD){
+  this.kD = kD;
+};
+this.getKP = function(kP){
+  this.kP = kP;
+};
+this.getKI = function(kI){
+  this.kI = kI;
+};
+this.getKD = function(kD){
   this.kD = kD;
 };
 this.getSetPoint = function(){
