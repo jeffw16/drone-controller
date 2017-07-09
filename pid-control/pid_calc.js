@@ -39,12 +39,12 @@ var calculatePID = function(_quaternion, setPoints){
 
     var pid = pVal + iVal + dVal;
 
-    if(i === 0){
+    if(i === 0 & bool != true){
       var left = /*throttle + */ pid;
       socket.emit('writemotor', {side: "left", thrust: left});
       var right = /*throttle - */ -pid;
       socket.emit('writemotor', {side: "right", thrust: right});
-    }else if (i == 1) {
+    }else if (i == 1 & bool != true) {
       var front = /*throttle + */ pid;
       socket.emit('writemotor', {side:"front", thrust: front});
       var back = /*throttle - */ -pid;
