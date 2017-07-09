@@ -3,8 +3,8 @@ var kI = 1;
 var kD = 1;
 var derivator = 0;
 var integrator = 0;
-var integrator_max = 400;
-var integrator_min = -400;
+var integrator_max = 100;
+var integrator_min = -100;
 var quaternion = [];
 
 var exports = module.exports = function(_socket){
