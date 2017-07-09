@@ -24,13 +24,14 @@ quaternion[1] = _data.roty; //pitch
 quaternion[2] = _data.rotz; //yaw
 quaternion[3] = _data.alt;
 
+if(bool !== true){
   var pidData = {
     kp: kP,
     ki: kI,
     kd: kD
   };
 
-  io.emit('pidData', pidData);
+  io.emit('pidData', pidData);}
 
   calculatePID(quaternion, [0, 0, 0, 10]);
 };
@@ -145,9 +146,9 @@ var calculatePID = function(_quaternion, setPoints){
       }
 
     if(i == 3 & bool === true){
-      var thrust = 40;
-      socket.emit("writemotor", {side:"front", thrust:thrust});
-      socket.emit("writemotor", {side:"back", thrust:thrust});
+      var overallPid = pidRoll + pidPitch + pidYaw;
+      socket.emit("writemotor", {side:"front", thrust:overallPid});
+      socket.emit("writemotor", {side:"back", thrust:overallPid});
     }
   }
         // socket.emit("writemotor", {side:"front", thrust:throttle+pidPitch - pidYaw});

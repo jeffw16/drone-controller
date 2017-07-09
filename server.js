@@ -19,7 +19,6 @@ io.on('connection', (socket) => {
   var altControl = new PIDControl(socket, io, 1, 1, 1, true);
   socket.emit('message', 'Welcome! You are connected.');
   socket.on('dronedata', (data) => {
-    console.log('I received data from the drone.');
     pidControl.update(data);
     altControl.update(data);
     io.emit('clientReceiveData', data);
@@ -32,15 +31,15 @@ io.on('connection', (socket) => {
 
 
   socket.on('updatekp', (kp) => {
-    pidControl.setKP(kp) 
+    pidControl.setKP(kp)
   })
 
   socket.on('updateki', (ki) => {
-    pidControl.setKI(ki) 
+    pidControl.setKI(ki)
   })
 
   socket.on('updatekd', (kd) => {
-    pidControl.setKD(kd) 
+    pidControl.setKD(kd)
   })
 
 
