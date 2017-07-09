@@ -33,7 +33,7 @@ if(bool !== true){
 
   io.emit('pidData', pidData);}
 
-  calculatePID(quaternion, [0, 0, 0, 10]);
+  calculatePID(quaternion, [0, 0, 0, 5]);
 };
 
 var calculatePID = function(_quaternion, setPoints){
