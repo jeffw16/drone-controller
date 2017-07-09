@@ -1,5 +1,11 @@
-var derivator = 0;
-var integrator = 0;
+var derivatorRoll = 0;
+var integratorRoll = 0;
+var derivatorPitch = 0;
+var integratorPitch = 0;
+var derivatorYaw = 0;
+var integratorYaw = 0;
+var derivatorAlt = 0;
+var integratorAlt = 0;
 var integrator_max = 100;
 var integrator_min = -100;
 var quaternion = [];
@@ -23,32 +29,78 @@ quaternion[3] = _data.alt;
     kd: kD
   });
 
-  calculatePID(quaternion, [0, 0, 0, 0]);
+  calculatePID(quaternion, [0, 0, 0, 10]);
 };
 
 var calculatePID = function(_quaternion, setPoints){
   for(var i = 0; i < _quaternion.length; i++){
-    var error = setPoints[i] - _quaternion[i];
-    var pVal = error*kP;
-
-    integrator += error;
-    if(integrator > integrator_max){
-      integrator = integrator_max;
-    }else if (integrator < integrator_min) {
-      integrator = integrator_min;
-    }
-    var iVal = integrator*kI;
-
-    var dVal = kD * (error - derivator);
-    derivator = error;
-    console.log("erroar: " + error);
-
-    var pid = 0;
-	pid += pVal;
-//	pid += iVal;
-	pid += dVal;
+    var pVal;
+    var iVal;
+    var dVal;
+    var pid;
+    var error;
 
 
+    if(i === 0){
+      error = setPoints[i] - _quaternion[i];
+      pVal = error*kP;
+
+      integratorRoll += error;
+      if(integratorRoll > integrator_max){
+        integratorRoll = integrator_max;
+      }else if (integratorRoll < integrator_min) {
+        integratorRoll = integrator_min;
+      }
+      iVal = integratorRoll*kI;
+
+      dVal = kD * (error - derivatorRoll);
+      derivatorRoll = error;
+
+      pid = 0;
+	     pid += pVal;
+       //	pid += iVal;
+	      pid += dVal;
+      }
+      if(i === 1){
+        error = setPoints[i] - _quaternion[i];
+        pVal = error*kP;
+
+        integratorPitch += error;
+        if(integratorPitch > integrator_max){
+          integratorPitch = integrator_max;
+        }else if (integratorPitch < integrator_min) {
+          integratorPitch = integrator_min;
+        }
+        iVal = integratorPitch*kI;
+
+        dVal = kD * (error - derivatorPitch);
+        derivatorPitch = error;
+
+        pid = 0;
+  	     pid += pVal;
+         //	pid += iVal;
+  	      pid += dVal;
+        }
+        if(i === 3){
+          error = setPoints[i] - _quaternion[i];
+          pVal = error*kP;
+
+          integratorYaw += error;
+          if(integratorYaw > integrator_max){
+            integratorYaw = integrator_max;
+          }else if (integratorYaw < integrator_min) {
+            integratorYaw = integrator_min;
+          }
+          iVal = integratorYaw*kI;
+
+          dVal = kD * (error - derivatorYaw);
+          derivatorYaw = error;
+
+          pid = 0;
+    	     pid += pVal;
+           pid += iVal;
+    	     pid += dVal;
+          }
 
 
     // if(i === 0 & bool != true){
