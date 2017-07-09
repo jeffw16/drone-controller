@@ -45,6 +45,12 @@ var calculatePID = function(_quaternion, setPoints){
 
     var pid = pVal + iVal + dVal;
 
+    console.log("p heere :"+pVal );
+    console.log("i heere :"+iVal );
+    console.log("d heere :"+dVal );
+    console.log("pid heere :"+pid );
+
+
     // if(i === 0 & bool != true){
     //   var left = /*throttle + */ pid;
     //   socket.emit('writemotor', {side: "left", thrust: left});
