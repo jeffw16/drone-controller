@@ -9,7 +9,6 @@ var integratorAlt = 0;
 var integrator_max = 100;
 var integrator_min = -100;
 var quaternion = [];
-var throttle = 10;
 
 var exports = module.exports = function(_socket, _io, _kP, _kI, _kD, _bool){
   var io = _io;
@@ -63,10 +62,10 @@ var calculatePID = function(_quaternion, setPoints){
       dVal = kD * (error - derivatorRoll);
       derivatorRoll = error;
 
-       pidRoll = 0;
-	     pidRoll += pVal;
-       pidRoll += iVal;
-	     pidRoll += dVal;
+       pid = 0;
+	     pid += pVal;
+       pid += iVal;
+	     pid += dVal;
       }
       if(i === 1){
         error = setPoints[i] - _quaternion[i];
@@ -83,10 +82,10 @@ var calculatePID = function(_quaternion, setPoints){
         dVal = kD * (error - derivatorPitch);
         derivatorPitch = error;
 
-         pidPitch = 0;
-  	     pidPitch += pVal;
-         pidPitch += iVal;
-  	     pidPitch += dVal;
+         pid = 0;
+  	     pid += pVal;
+         pid += iVal;
+  	     pid += dVal;
         }
         if(i === 2){
           error = setPoints[i] - _quaternion[i];
@@ -103,10 +102,10 @@ var calculatePID = function(_quaternion, setPoints){
           dVal = kD * (error - derivatorYaw);
           derivatorYaw = error;
 
-           pidYaw = 0;
-    	     pidYaw += pVal;
-           pidYaw += iVal;
-    	     pidYaw += dVal;
+           pid = 0;
+    	     pid += pVal;
+           pid += iVal;
+    	     pid += dVal;
           }
 
 // testing version
@@ -127,37 +126,37 @@ var calculatePID = function(_quaternion, setPoints){
     //   socket.emit("back", {side:"back", thrust:backl});
     // }
     ///////////////////////////////////////////////
-    // if(pid > 0){
-    //   if( i === 0 & bool !== true){
-    //     var right = -pid;
-    //     socket.emit('writemotor', {side: "right", thrust: right});
-    //   }
-    //   if (i == 1 & bool !== true){
-    //     var back = -pid;
-    //     socket.emit('writemotor', {side: "back", thrust: back});
-    //   }
-    // }else if(pid < 0){
-    //   if( i === 0 & bool !== true ){
-    //     var left = pid;
-    //     socket.emit('writemotor', {side: "left", thrust: left});
-    //   }
-    //   if(i == 1 & bool !== true){
-    //     var front = pid;
-    //     socket.emit('writemotor', {side: "front", thrust: front});
-    //   }
-    // }if(i == 3 & bool === true){
-    //   var frontl = pid;
-    //   var backl = pid;
-    //   socket.emit("writemotor", {side:"front", thrust:frontl});
-    //   socket.emit("writermotor", {side:"back", thrust:backl});
-    // }
+    if(pid > 0){
+      if( i === 0 & bool !== true){
+        var right = -pid;
+        socket.emit('writemotor', {side: "right", thrust: right});
+      }
+      if (i == 1 & bool !== true){
+        var back = -pid;
+        socket.emit('writemotor', {side: "back", thrust: back});
+      }
+    }else if(pid < 0){
+      if( i === 0 & bool !== true ){
+        var left = pid;
+        socket.emit('writemotor', {side: "left", thrust: left});
+      }
+      if(i == 1 & bool !== true){
+        var front = pid;
+        socket.emit('writemotor', {side: "front", thrust: front});
+      }
+    }if(i == 3 & bool === true){
+      var frontl = pid;
+      var backl = pid;
+      socket.emit("writemotor", {side:"front", thrust:frontl});
+      socket.emit("writermotor", {side:"back", thrust:backl});
+    }
     //////////////////////////////////////////////
 
   }
-        socket.emit("writemotor", {side:"front", thrust:throttle+pidPitch - pidYaw});
-        socket.emit("writemotor", {side:"back", thrust:throttle-pidPitch-pidYaw});
-        socket.emit("writemotor", {side:"left", thrust:throttle+pidRoll+pidYaw});
-        socket.emit("writemotor", {side:"right", thrust:throttle-pidRoll+pidYaw});
+        // socket.emit("writemotor", {side:"front", thrust:throttle+pidPitch - pidYaw});
+        // socket.emit("writemotor", {side:"back", thrust:throttle-pidPitch-pidYaw});
+        // socket.emit("writemotor", {side:"left", thrust:throttle+pidRoll+pidYaw});
+        // socket.emit("writemotor", {side:"right", thrust:throttle-pidRoll+pidYaw});
 
 };
 
