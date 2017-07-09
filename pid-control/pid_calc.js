@@ -1,14 +1,15 @@
-var kP = 1;
-var kI = 1;
-var kD = 1;
 var derivator = 0;
 var integrator = 0;
 var integrator_max = 100;
 var integrator_min = -100;
 var quaternion = [];
 
-var exports = module.exports = function(_socket){
+var exports = module.exports = function(_socket, _kP, _kI, _kD, _bool){
   var socket = _socket;
+  var kP = _kP;
+  var kI = _kI;
+  var kD = _kD;
+  var bool = _bool;
 
 this.update = function(_data){
 quaternion[0] = _data.rotx; //roll
@@ -16,7 +17,7 @@ quaternion[1] = _data.roty; //pitch
 quaternion[2] = _data.rotz; //yaw
 quaternion[3] = _data.alt;
 
-  calculatePID(quaternion, [0, 0, 0, 50]);
+  calculatePID(quaternion, [0, 0, 0, 10]);
 };
 
 var calculatePID = function(_quaternion, setPoints){
@@ -48,11 +49,11 @@ var calculatePID = function(_quaternion, setPoints){
       socket.emit('writemotor', {side:"front", thrust: front});
       var back = /*throttle - */ -pid;
       socket.emit('writemotor', {side:"back", thrust: back});
-    }else if (i == 3) {
+    }else if (i == 3 & bool === true) {
       var frontl = pid;
-      var backl =  pid;
-      socket.emit('writemotor', {side:"front", thrust: frontl});
-      socket.emit('writemotor', {side:"back",  thrust: backl});
+      var backl = pid;
+      socket.emit("front", {side:"front", thrust:frontl});
+      socket.emit("back", {side:"back", thrust:backl});
     }
   }
 };
