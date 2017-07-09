@@ -29,7 +29,7 @@ quaternion[3] = _data.alt;
     kd: kD
   });
 
-  calculatePID(quaternion, [0, 0, 0, 50]);
+  calculatePID(quaternion, [0, 0, 0, 0]);
 };
 
 var calculatePID = function(_quaternion, setPoints){
@@ -103,46 +103,46 @@ var calculatePID = function(_quaternion, setPoints){
           }
 
 
-    // if(i === 0 & bool != true){
-    //   var left = /*throttle + */ pid;
-    //   socket.emit('writemotor', {side: "left", thrust: left});
-    //   var right = /*throttle - */ -pid;
-    //   socket.emit('writemotor', {side: "right", thrust: right});
-    // }else if (i == 1 & bool != true) {
-    //   var front = /*throttle + */ pid;
-    //   socket.emit('writemotor', {side:"front", thrust: front});
-    //   var back = /*throttle - */ -pid;
-    //   socket.emit('writemotor', {side:"back", thrust: back});
-    // }else if (i == 3 & bool === true) {
-    //   var frontl = pid;
-    //   var backl = pid;
-    //   socket.emit("front", {side:"front", thrust:frontl});
-    //   socket.emit("back", {side:"back", thrust:backl});
-    // }
-    if(pid > 0){
-      if( i === 0 & bool !== true){
-        var right = -pid;
-        socket.emit('writemotor', {side: "right", thrust: right});
-      }
-      if (i == 1 & bool !== true){
-        var back = -pid;
-        socket.emit('writemotor', {side: "back", thrust: back});
-      }
-    }else if(pid < 0){
-      if( i === 0 & bool !== true ){
-        var left = pid;
-        socket.emit('writemotor', {side: "left", thrust: left});
-      }
-      if(i == 1 & bool !== true){
-        var front = pid;
-        socket.emit('writemotor', {side: "front", thrust: front});
-      }
-    }if(i == 3 & bool === true){
+    if(i === 0 & bool != true){
+      var left = /*throttle + */ pid;
+      socket.emit('writemotor', {side: "left", thrust: left});
+      var right = /*throttle - */ -pid;
+      socket.emit('writemotor', {side: "right", thrust: right});
+    }else if (i == 1 & bool != true) {
+      var front = /*throttle + */ pid;
+      socket.emit('writemotor', {side:"front", thrust: front});
+      var back = /*throttle - */ -pid;
+      socket.emit('writemotor', {side:"back", thrust: back});
+    }else if (i == 3 & bool === true) {
       var frontl = pid;
       var backl = pid;
       socket.emit("front", {side:"front", thrust:frontl});
       socket.emit("back", {side:"back", thrust:backl});
     }
+    // if(pid > 0){
+    //   if( i === 0 & bool !== true){
+    //     var right = -pid;
+    //     socket.emit('writemotor', {side: "right", thrust: right});
+    //   }
+    //   if (i == 1 & bool !== true){
+    //     var back = -pid;
+    //     socket.emit('writemotor', {side: "back", thrust: back});
+    //   }
+    // }else if(pid < 0){
+    //   if( i === 0 & bool !== true ){
+    //     var left = pid;
+    //     socket.emit('writemotor', {side: "left", thrust: left});
+    //   }
+    //   if(i == 1 & bool !== true){
+    //     var front = pid;
+    //     socket.emit('writemotor', {side: "front", thrust: front});
+    //   }
+    // }if(i == 3 & bool === true){
+    //   var frontl = pid;
+    //   var backl = pid;
+    //   socket.emit("front", {side:"front", thrust:frontl});
+    //   socket.emit("back", {side:"back", thrust:backl});
+    // }
   }
 };
 
