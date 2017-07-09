@@ -36,9 +36,9 @@ quaternion[3] = _data.alt;
 };
 
 var calculatePID = function(_quaternion, setPoints){
-  // var pidRoll;
-  // var pidPitch;
-  // var pidYaw;
+  var pidRoll;
+  var pidPitch;
+  var pidYaw;
   for(var i = 0; i < _quaternion.length; i++){
     var pVal;
     var iVal;
@@ -60,10 +60,10 @@ var calculatePID = function(_quaternion, setPoints){
       dVal = kD * (error - derivatorRoll);
       derivatorRoll = error;
 
-       pid = 0;
-	     pid += pVal;
-       pid += iVal;
-	     pid += dVal;
+       pidRoll = 0;
+	     pidRoll += pVal;
+       pidRoll += iVal;
+	     pidRoll += dVal;
       }
       if(i === 1){
         error = setPoints[i] - _quaternion[i];
@@ -80,10 +80,10 @@ var calculatePID = function(_quaternion, setPoints){
         dVal = kD * (error - derivatorPitch);
         derivatorPitch = error;
 
-         pid = 0;
-  	     pid += pVal;
-         pid += iVal;
-  	     pid += dVal;
+         pidPitch = 0;
+  	     pidPitch += pVal;
+         pidPitch += iVal;
+  	     pidPitch += dVal;
         }
         if(i === 2){
           error = setPoints[i] - _quaternion[i];
@@ -100,10 +100,10 @@ var calculatePID = function(_quaternion, setPoints){
           dVal = kD * (error - derivatorYaw);
           derivatorYaw = error;
 
-           pid = 0;
-    	     pid += pVal;
-           pid += iVal;
-    	     pid += dVal;
+           pidYaw = 0;
+    	     pidYaw += pVal;
+           pidYaw += iVal;
+    	     pidYaw += dVal;
           }
 
 // testing version
@@ -126,27 +126,27 @@ var calculatePID = function(_quaternion, setPoints){
     ///////////////////////////////////////////////
     if(pid > 0){
       if( i === 0 & bool !== true){
-        var right = -pid;
+        var right = -pidRoll-pidYaw;
         socket.emit('writemotor', {side: "right", thrust: right});
       }
       if (i == 1 & bool !== true){
-        var back = -pid;
+        var back = -pidPitch-pidYaw;
         socket.emit('writemotor', {side: "back", thrust: back});
       }
-    }else if(pid < 0){
+    }
+    if(pid < 0){
       if( i === 0 & bool !== true ){
-        var left = pid;
+        var left = pidRol+pidYaw;
         socket.emit('writemotor', {side: "left", thrust: left});
       }
       if(i == 1 & bool !== true){
-        var front = pid;
+        var front = pidPitch-pidYaw;
         socket.emit('writemotor', {side: "front", thrust: front});
       }
     }if(i == 3 & bool === true){
-      var frontl = pid;
-      var backl = pid;
-      //socket.emit("writemotor", {side:"front", thrust:frontl});
-    //  socket.emit("writermotor", {side:"back", thrust:backl});
+      var overallPid = pidRoll + pidPitch + pidYaw;
+      socket.emit("writemotor", {side:"front", thrust:overallPid});
+      socket.emit("writemotor", {side:"back", thrust:overallPid});
     }
     //////////////////////////////////////////////
 
