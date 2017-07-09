@@ -11,7 +11,8 @@ var integrator_min = -100;
 var quaternion = [];
 var throttle = 10;
 
-var exports = module.exports = function(_socket, _kP, _kI, _kD, _bool){
+var exports = module.exports = function(_socket, _io, _kP, _kI, _kD, _bool){
+  var io = _io;
   var socket = _socket;
   var kP = _kP;
   var kI = _kI;
@@ -23,11 +24,16 @@ quaternion[0] = _data.rotx; //roll
 quaternion[1] = _data.roty; //pitch
 quaternion[2] = _data.rotz; //yaw
 quaternion[3] = _data.alt;
-  socket.emit('pidData', {
+
+  var pidData = {
     kp: kP,
     ki: kI,
     kd: kD
-  });
+  }
+
+  console.log(pidData)
+
+  io.emit('pidData', pidData);
 
   calculatePID(quaternion, [0, 0, 0, 10]);
 };

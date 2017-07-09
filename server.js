@@ -15,8 +15,8 @@ app.get('/test', (req, res) => {
 
 io.on('connection', (socket) => {
   console.log('A user has connected.');
-  var pidControl = new PIDControl(socket, 1, 25, 5, false);
-  var altControl = new PIDControl(socket, 1, 1, 1, true);
+  var pidControl = new PIDControl(socket, io, 1, 25, 5, false);
+  var altControl = new PIDControl(socket, io, 1, 1, 1, true);
   socket.emit('message', 'Welcome! You are connected.');
   socket.on('dronedata', (data) => {
     console.log('I received data from the drone.');
