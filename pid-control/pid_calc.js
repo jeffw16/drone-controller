@@ -13,9 +13,9 @@ var quaternion = [];
 var exports = module.exports = function(_socket, _io, _kP, _kI, _kD, _bool){
   var io = _io;
   var socket = _socket;
-  var kP = _kP;
-  var kI = _kI;
-  var kD = _kD;
+  this.kP = _kP;
+  this.kI = _kI;
+  this.kD = _kD;
   var bool = _bool;
 
 this.update = function(_data){
@@ -24,14 +24,18 @@ quaternion[1] = _data.roty; //pitch
 quaternion[2] = _data.rotz; //yaw
 quaternion[3] = _data.alt;
 
-if(bool !== true){
   var pidData = {
-    kp: kP,
-    ki: kI,
-    kd: kD
+    kp: this.kP,
+    ki: this.kI,
+    kd: this.kD
   };
 
-  io.emit('pidData', pidData);}
+if(bool !== true){
+  io.emit('pidRotData', pidData);
+
+} else {
+  io.emit('pidAltData', pidData);
+}
 
   calculatePID(quaternion, [0, 0, 0, 50]);
 };
@@ -48,7 +52,7 @@ var calculatePID = function(_quaternion, setPoints){
     var error;
     if(i === 0){
       error = setPoints[i] - _quaternion[i];
-      pVal = error*kP;
+      pVal = error*this.kP;
 
       integratorRoll += error;
       if(integratorRoll > integrator_max){
@@ -56,9 +60,9 @@ var calculatePID = function(_quaternion, setPoints){
       }else if (integratorRoll < integrator_min) {
         integratorRoll = integrator_min;
       }
-      iVal = integratorRoll*kI;
+      iVal = integratorRoll*this.kI;
 
-      dVal = kD * (error - derivatorRoll);
+      dVal = this.kD * (error - derivatorRoll);
       derivatorRoll = error;
 
        pidRoll = 0;
@@ -68,7 +72,7 @@ var calculatePID = function(_quaternion, setPoints){
       }
       if(i === 1){
         error = setPoints[i] - _quaternion[i];
-        pVal = error*kP;
+        pVal = error*this.kP;
 
         integratorPitch += error;
         if(integratorPitch > integrator_max){
@@ -76,9 +80,9 @@ var calculatePID = function(_quaternion, setPoints){
         }else if (integratorPitch < integrator_min) {
           integratorPitch = integrator_min;
         }
-        iVal = integratorPitch*kI;
+        iVal = integratorPitch*this.kI;
 
-        dVal = kD * (error - derivatorPitch);
+        dVal = this.kD * (error - derivatorPitch);
         derivatorPitch = error;
 
          pidPitch = 0;
@@ -88,7 +92,7 @@ var calculatePID = function(_quaternion, setPoints){
         }
         if(i === 2){
           error = setPoints[i] - _quaternion[i];
-          pVal = error*kP;
+          pVal = error*this.kP;
 
           integratorYaw += error;
           if(integratorYaw > integrator_max){
@@ -96,9 +100,9 @@ var calculatePID = function(_quaternion, setPoints){
           }else if (integratorYaw < integrator_min) {
             integratorYaw = integrator_min;
           }
-          iVal = integratorYaw*kI;
+          iVal = integratorYaw*this.kI;
 
-          dVal = kD * (error - derivatorYaw);
+          dVal = thiskD * (error - derivatorYaw);
           derivatorYaw = error;
 
            pidYaw = 0;

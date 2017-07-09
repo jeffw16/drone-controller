@@ -30,16 +30,28 @@ io.on('connection', (socket) => {
 
 
 
-  socket.on('updatekp', (kp) => {
+  socket.on('updaterotkp', (kp) => {
     pidControl.setKP(kp)
   })
 
-  socket.on('updateki', (ki) => {
+  socket.on('updaterotki', (ki) => {
     pidControl.setKI(ki)
   })
 
-  socket.on('updatekd', (kd) => {
+  socket.on('updaterotkd', (kd) => {
     pidControl.setKD(kd)
+  })
+
+  socket.on('updatealtkp', (kp) => {
+    altControl.setKP(kp)
+  })
+
+  socket.on('updatealtki', (ki) => {
+    altControl.setKI(ki)
+  })
+
+  socket.on('updatealtkd', (kd) => {
+    altControl.setKD(kd)
   })
 
 
