@@ -24,9 +24,9 @@ quaternion[2] = _data.rotz; //yaw
 quaternion[3] = _data.alt;
 
   socket.emit('pidData', {
-    kp: kP,
-    ki: kI,
-    kd: kD
+    "kp": kP,
+    "ki": kI,
+    "kd": kD
   });
 
   calculatePID(quaternion, [0, 0, 0, 10]);
