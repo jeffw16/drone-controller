@@ -10,10 +10,9 @@ var integrator_min = -400;
 var quaternion = {};
 
 exports.update = function(_data){
-var data = JSON.parse(_data);
-quaternion[0] = data.rotx; //roll
-quaternion[1] = data.roty; //pitch
-quaternion[2] = data.rotz; //yaw
+quaternion[0] = _data.rotx; //roll
+quaternion[1] = _data.roty; //pitch
+quaternion[2] = _data.rotz; //yaw
 
 calculatePID(quaternion, [0, 0, 0]);
 };
