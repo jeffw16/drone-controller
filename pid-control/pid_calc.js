@@ -46,7 +46,7 @@ var calculatePID = function(_quaternion, setPoints){
     }else if (i == 1) {
       var front = /*throttle + */ pid;
       socket.emit('writemotor', {side:"front", thrust: front});
-      var back = /*throttle + */ pid;
+      var back = /*throttle - */ -pid;
       socket.emit('writemotor', {side:"back", thrust: back});
     }else if (i == 3) {
       var frontl = pid;
