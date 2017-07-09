@@ -42,16 +42,14 @@ var calculatePID = function(_quaternion, setPoints){
 
     var dVal = kD * (error - derivator);
     derivator = error;
+    console.log("erroar: " + error);
 
     var pid = 0;
 	pid += pVal;
 //	pid += iVal;
 	pid += dVal;
 
-    console.log("p heere :"+pVal );
-    console.log("i heere :"+iVal );
-    console.log("d heere :"+dVal );
-    console.log("pid heere :"+pid );
+
 
 
     // if(i === 0 & bool != true){
