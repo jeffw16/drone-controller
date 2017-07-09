@@ -14,6 +14,7 @@ this.update = function(_data){
 quaternion[0] = _data.rotx; //roll
 quaternion[1] = _data.roty; //pitch
 quaternion[2] = _data.rotz; //yaw
+quaternion[3] = _data.alt;
 
   calculatePID(quaternion, [0, 0, 0]);
 };
@@ -47,8 +48,11 @@ var calculatePID = function(_quaternion, setPoints){
       socket.emit('writemotor', {side:"front", thrust: front});
       var back = /*throttle + */ pid;
       socket.emit('writemotor', {side:"back", thrust: back});
-    }else if (i == 2) {
-      //TODO: add yaw somehow?
+    }else if (i == 3) {
+      var frontl = pid;
+      var backl =  pid;
+      socket.emit('writemotor', {side:"front", thrust: frontl});
+      socket.emit('writemotor', {side:"back",  thrust: backl});
     }
   }
 };
