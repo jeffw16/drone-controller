@@ -24,6 +24,28 @@ io.on('connection', (socket) => {
     io.emit('clientReceiveData', data);
   });
 
+
+
+
+
+
+
+  socket.on('updatekp', (kp) => {
+    pidControl.setKP(kp) 
+  })
+
+  socket.on('updateki', (ki) => {
+    pidControl.setKI(ki) 
+  })
+
+  socket.on('updatekd', (kd) => {
+    pidControl.setKD(kd) 
+  })
+
+
+
+
+
   socket.on('disconnect', () => {
     console.log('This user has disconnected.');
   });
