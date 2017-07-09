@@ -1,51 +1,37 @@
-const appclient = require('express')();
-const httpclient = require('http').Server(appclient);
-const ioclient = require('socket.io')(httpclient);
+const app = require('express')();
+const http = require('http').Server(app);
+const io = require('socket.io')(http);
 
-const portclient = 8080;
+const port= process.env.PORT || 3000;
 
-const appdrone = require('express')();
-const httpdrone = require('http').Server(appdrone);
-const iodrone = require('socket.io')(httpdrone);
-
-const portdrone = process.env.PORT || 3000;
-
-appclient.get('/', (req, res) => {
+app.get('/', (req, res) => {
   // res.send('Drone Controller API Home');
   res.sendFile(__dirname + '/templates/index.html');
 });
-appclient.get('/test', (req, res) => {
+app.get('/test', (req, res) => {
   res.sendFile(__dirname + '/templates/testing.html');
 });
 
-ioclient.on('connection', (socket) => {
+io.on('connection', (socket) => {
   console.log('A user has connected.');
-  socket.send('Welcome! WebSockets ONLY :D');
-  socket.on('hello', (socket) => {
-    console.log('Message from client', socket);
-  });
-  // pid -> drone
-  socket.on('writeMotor', (socket) => {
-    socket.emit('WriteMotor', socket);
-  });
-  // drone -> server
-  socket.on('dronedata', (socket) => {
-    socket.emit('drone', socket);
-  });
+  socket.emit('message', 'Welcome! You are connected.');
+
+  socket.on('dronedata', (data) => {
+    console.log('I received data from the drone.')
+    // process that data in the PID
+    // the data is in the form of a JSON object
+  })
+
   socket.on('disconnect', () => {
     console.log('This user has disconnected.');
   });
 });
 
-httpclient.listen(portclient, () => {
-  console.log("Drone Controller Server - Client - Welcome");
-  console.log("Listening on port " + portclient);
-//setInterval(() => {
-//  io.send('Spam every 5 seconds');
-//}, 5000);
-});
+function writeMotor(info) {
+  io.emit('writemotor', {side: "front", thrust: 50})
+}
 
-httpdrone.listen(portdrone, () => {
-  console.log("Drone Controller Server - Drone - Welcome");
-  console.log("Listening on port " + portdrone);
+http.listen(port, () => {
+  console.log("Drone Controller Server - Welcome");
+  console.log("Listening on port " + port);
 });
