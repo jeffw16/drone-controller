@@ -23,12 +23,12 @@ quaternion[0] = _data.rotx; //roll
 quaternion[1] = _data.roty; //pitch
 quaternion[2] = _data.rotz; //yaw
 quaternion[3] = _data.alt;
-console.log(pidData);
   var pidData = {
     kp: this.kP,
     ki: this.kI,
     kd: this.kD
   };
+  console.log(pidData);
 
 if(bool !== true){
   io.emit('pidRotData', pidData);
