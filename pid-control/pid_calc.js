@@ -145,9 +145,9 @@ var calculatePID = function(_quaternion, setPoints){
       }
 
     if(i == 3 & bool === true){
-      var overallPid = pidRoll + pidPitch + pidYaw;
-      socket.emit("writemotor", {side:"front", thrust:overallPid});
-      socket.emit("writemotor", {side:"back", thrust:overallPid});
+      var thrust = 40;
+      socket.emit("writemotor", {side:"front", thrust:thrust});
+      socket.emit("writemotor", {side:"back", thrust:thrust});
     }
   }
         // socket.emit("writemotor", {side:"front", thrust:throttle+pidPitch - pidYaw});
