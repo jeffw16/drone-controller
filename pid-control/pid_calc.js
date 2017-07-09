@@ -65,7 +65,8 @@ var calculatePID = function(_quaternion, setPoints){
       if( i === 0 & bool !== true){
         var right = -pid;
         socket.emit('writemotor', {side: "right", thrust: right});
-      }else if (i == 1 & bool !== true){
+      }
+      if (i == 1 & bool !== true){
         var back = -pid;
         socket.emit('writemotor', {side: "back", thrust: back});
       }
@@ -73,11 +74,12 @@ var calculatePID = function(_quaternion, setPoints){
       if( i === 0 & bool !== true ){
         var left = pid;
         socket.emit('writemotor', {side: "left", thrust: left});
-      }else if(i == 1 & bool !== true){
+      }
+      if(i == 1 & bool !== true){
         var front = pid;
         socket.emit('writemotor', {side: "front", thrust: front});
       }
-    }else if(i == 3 & bool === true){
+    }if(i == 3 & bool === true){
       var frontl = pid;
       var backl = pid;
       socket.emit("front", {side:"front", thrust:frontl});
