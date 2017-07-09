@@ -14,10 +14,10 @@ quaternion[0] = _data.rotx; //roll
 quaternion[1] = _data.roty; //pitch
 quaternion[2] = _data.rotz; //yaw
 
-calculatePID(quaternion, [0, 0, 0]);
+  calculatePID(quaternion, [0, 0, 0]);
 };
 
-exports.calculatePID = function(_quaternion, setPoints){
+var calculatePID = function(_quaternion, setPoints){
   for(var i = 0; i < _quaternion.length-1; i++){
     var error = setPoints[i] - _quaternion[i];
 
@@ -51,6 +51,8 @@ exports.calculatePID = function(_quaternion, setPoints){
     }
   }
 };
+
+exports.calculatePID = calculatePID;
 
 exports.moveForward = function(){ //needs to keep GETTING CALLED CONTINUOUSLY OR IT WONT WORK for all 4
   calculatePID([], [0, 20, 0]);
