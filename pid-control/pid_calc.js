@@ -5,7 +5,7 @@ var derivator = 0;
 var integrator = 0;
 var integrator_max = 400;
 var integrator_min = -400;
-var quaternion = {};
+var quaternion = [];
 
 var exports = module.exports = function(_socket){
   var socket = _socket;
@@ -25,7 +25,7 @@ var calculatePID = function(_quaternion, setPoints){
     var pVal = error*kP;
 
     integrator += error;
-    if(integrator > intergrator_max){
+    if(integrator > integrator_max){
       integrator = integrator_max;
     }else if (integrator < integrator_min) {
       integrator = integrator_min;
@@ -40,7 +40,7 @@ var calculatePID = function(_quaternion, setPoints){
     if(i === 0){
       var left = /*throttle + */ pid;
       socket.emit('writemotor', {side: "left", thrust: left});
-      var right = /*throttle - */ pid;
+      var right = /*throttle - */ -pid;
       socket.emit('writemotor', {side: "right", thrust: right});
     }else if (i == 1) {
       var front = /*throttle + */ pid;
