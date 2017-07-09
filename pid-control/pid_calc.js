@@ -16,7 +16,7 @@ quaternion[1] = _data.roty; //pitch
 quaternion[2] = _data.rotz; //yaw
 quaternion[3] = _data.alt;
 
-  calculatePID(quaternion, [0, 0, 0]);
+  calculatePID(quaternion, [0, 0, 0, 50]);
 };
 
 var calculatePID = function(_quaternion, setPoints){
@@ -60,16 +60,16 @@ var calculatePID = function(_quaternion, setPoints){
 this.calculatePID = calculatePID;
 
 this.moveForward = function(){ //needs to keep GETTING CALLED CONTINUOUSLY OR IT WONT WORK for all 4
-  calculatePID([], [0, 20, 0]);
+  calculatePID([], [0, 20, 0, 50]);
 };
 this.moveBackward = function(){
-  calculatePID([], [0, -20, 0]);
+  calculatePID([], [0, -20, 0, 50]);
 };
 this.moveLeft = function(){
-  calculatePID([], [20, 0, 0]);
+  calculatePID([], [20, 0, 0, 50]);
 };
 this.moveRight = function(){
-  calculatePID([], [-20, 0, 0]);
+  calculatePID([], [-20, 0, 0, 50]);
 };
 
 
