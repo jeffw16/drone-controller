@@ -18,9 +18,9 @@ io.on('connection', (socket) => {
   socket.emit('message', 'Welcome! You are connected.');
 
   socket.on('dronedata', (data) => {
-    console.log('I received data from the drone.')
+    console.log('I received data from the drone.');
     pidControl.update(data);
-  })
+  });
 
   socket.on('disconnect', () => {
     console.log('This user has disconnected.');
@@ -28,7 +28,7 @@ io.on('connection', (socket) => {
 });
 
 function writeMotor(info) {
-  io.emit('writemotor', {side: "front", thrust: 50})
+  io.emit('writemotor', {side: "front", thrust: 50});
 }
 
 http.listen(port, () => {
