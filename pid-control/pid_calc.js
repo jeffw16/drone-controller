@@ -43,7 +43,10 @@ var calculatePID = function(_quaternion, setPoints){
     var dVal = kD * (error - derivator);
     derivator = error;
 
-    var pid = pVal + iVal; //+ dVal;
+    var pid = 0;
+	pid += pVal;
+//	pid += iVal;
+	pid += dVal;
 
     console.log("p heere :"+pVal );
     console.log("i heere :"+iVal );
